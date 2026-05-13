@@ -1,0 +1,521 @@
+<style>
+
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal-50: #e6f7f7;
+    --teal-100: #b3e8e7;
+    --teal-500: #00b0ad;
+    --teal-700: #003057;
+    --teal-900: #002040;
+    --green-50: #e6f7f7;
+    --green-600: #003057;
+    --red-50: #FCEBEB;
+    --red-600: #A32D2D;
+    --gray-50: #F7F6F3;
+    --gray-100: #EEEDEA;
+    --gray-200: #D8D7D2;
+    --gray-500: #888780;
+    --gray-700: #444441;
+    --gray-900: #1A1A18;
+    --white: #FFFFFF;
+    --radius: 10px;
+    --radius-pill: 99px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  header {
+    max-width: 860px;
+    margin: 0 auto 2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .logo-area h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .logo-area p {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+
+  .badge {
+    background: var(--teal-50);
+    color: var(--teal-700);
+    border: 1px solid var(--teal-100);
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .instructions {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--gray-700);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .instructions svg { flex-shrink: 0; opacity: 0.5; }
+
+  .cat-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .cat-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--gray-200);
+    background: var(--white);
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .cat-tab:hover { border-color: var(--teal-500); color: var(--teal-700); }
+  .cat-tab.active { background: var(--teal-500); border-color: var(--teal-500); color: var(--white); }
+
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gray-500);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 5px;
+    background: var(--gray-200);
+    border-radius: var(--radius-pill);
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--teal-500);
+    border-radius: var(--radius-pill);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .col-headers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .col-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    padding: 0 4px;
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    align-items: start;
+  }
+
+  .col { display: flex; flex-direction: column; gap: 8px; }
+
+  .term-card, .def-card {
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    line-height: 1.5;
+    min-height: 54px;
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  .term-card {
+    background: var(--white);
+    border: 1.5px solid var(--gray-200);
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.01em;
+    color: var(--gray-900);
+  }
+
+  .def-card {
+    background: var(--gray-100);
+    border: 1.5px solid transparent;
+    font-weight: 400;
+    color: var(--gray-700);
+    font-size: 13px;
+  }
+
+  .term-card:hover:not(.matched):not(.wrong) { border-color: var(--teal-500); transform: translateY(-1px); }
+  .def-card:hover:not(.matched):not(.wrong) { border-color: var(--teal-500); background: var(--teal-50); transform: translateY(-1px); }
+
+  .term-card.selected { border-color: var(--teal-500); background: var(--teal-50); color: var(--teal-900); }
+  .def-card.selected { border-color: var(--teal-500); background: var(--teal-50); color: var(--teal-900); }
+
+  .term-card.matched { background: var(--green-50); border-color: #00b0ad; color: var(--green-600); cursor: default; opacity: 0.75; }
+  .def-card.matched { background: var(--green-50); border-color: #00b0ad; color: var(--green-600); cursor: default; opacity: 0.75; }
+
+  .term-card.wrong { background: var(--red-50); border-color: #E24B4A; color: var(--red-600); animation: shake 0.35s ease; }
+  .def-card.wrong { background: var(--red-50); border-color: #E24B4A; color: var(--red-600); animation: shake 0.35s ease; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--gray-200);
+  }
+
+  .score-display {
+    flex: 1;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .score-display strong { color: var(--gray-900); }
+
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--gray-200);
+    background: var(--white);
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover { border-color: var(--teal-500); color: var(--teal-700); }
+
+  .complete-screen {
+    text-align: center;
+    padding: 3rem 1rem;
+    grid-column: 1 / -1;
+  }
+
+  .complete-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--teal-50);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+
+  .complete-screen h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+  }
+
+  .complete-screen p {
+    font-size: 14px;
+    color: var(--gray-500);
+    max-width: 320px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 600px) {
+    .columns, .col-headers { grid-template-columns: 1fr; }
+    .col-headers .col-header:last-child { display: none; }
+    header { flex-direction: column; }
+  }
+
+</style>
+
+
+<header>
+  <div class="logo-area">
+    <h1>Dominion Academy</h1>
+    <p>Terminology Quiz &mdash; Day 2</p>
+  </div>
+  <span class="badge">Interactive Review</span>
+</header>
+
+<div class="container">
+
+  <div class="instructions">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Click a term on the left, then click its matching definition on the right. Green means correct &mdash; keep going until the section is complete. Switch sections using the tabs below.
+  </div>
+
+  <div class="cat-tabs" id="cats"></div>
+
+  <div class="progress-row">
+    <span class="progress-label" id="progress-label">0 / 0</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div class="col-headers">
+    <div class="col-header">Term</div>
+    <div class="col-header">Definition</div>
+  </div>
+
+  <div class="columns" id="columns">
+    <div class="col" id="terms"></div>
+    <div class="col" id="defs"></div>
+  </div>
+
+  <div class="controls">
+    <div class="score-display">Matched: <strong id="score">0</strong> of <strong id="total">0</strong></div>
+    <button class="btn" onclick="resetQuiz()">Restart section</button>
+  </div>
+
+</div>
+
+<script>
+const ALL = {
+  "Testing Methods": [
+    { term: "Presumptive testing", def: "Initial screening test — medical decisions should NOT be made from these results alone." },
+    { term: "EIA", def: "Enzyme Immunoassay — tests for a drug class, not a single drug; can produce false positives." },
+    { term: "Definitive testing", def: "Confirmation-level testing used to make clinical decisions — no false positives." },
+    { term: "LC/MS/MS", def: "Liquid Chromatography Tandem Mass Spectrometry — identifies a single drug or metabolite with certainty." },
+    { term: "HRAM", def: "High Resolution Accurate Mass — next-generation definitive test method." },
+    { term: "Confirmation test", def: "A definitive test performed after a presumptive result; its results always take precedence." }
+  ],
+  "Lab Terminology": [
+    { term: "Adulterant", def: "A substance intentionally added to a urine specimen to make a drug undetectable." },
+    { term: "Analyte", def: "The specific drug or metabolite targeted by the test." },
+    { term: "Creatinine", def: "A biomarker of urine concentration from muscle activity; normal range 20–400 mg/dL." },
+    { term: "CAV", def: "Creatinine Adjusted Value — normalizes drug levels across samples for accurate comparison over time." },
+    { term: "Detection window", def: "The estimated time a drug remains detectable in a urine or oral fluid specimen." },
+    { term: "Dilute specimen", def: "Creatinine < 20 mg/dL and specific gravity < 1.003 — may indicate intentional dilution." },
+    { term: "False positive", def: "A presumptive result triggered by a substance unrelated to the target drug (cross-reactivity)." },
+    { term: "LOQ", def: "Limit of Quantification — the lowest drug concentration at which a test reports positive (also: cut-off)." },
+    { term: "Metabolite", def: "A compound produced when the liver breaks down a drug for elimination from the body." },
+    { term: "Oral Fluid (OF)", def: "Saliva-based drug testing — an alternative to urine collection." },
+    { term: "POCT", def: "Point of Care Testing — rapid clinic-based testing using presumptive technology; susceptible to false positives." },
+    { term: "Qualitative", def: "Test result reported as Detected or Not Detected — no drug level provided." },
+    { term: "Quantitative", def: "Test result providing an actual drug level expressed in ng/mL." },
+    { term: "UDM", def: "Urine Drug Monitoring — ongoing clinical monitoring for adherence and safety; Dominion's preferred term." },
+    { term: "UDT / UDS", def: "Urine Drug Test / Urine Drug Screen — synonyms for a urine specimen analyzed for drugs." }
+  ],
+  "Drug Terminology": [
+    { term: "6-AM", def: "6-Acetylmorphine — a heroin-specific metabolite; its presence confirms heroin use." },
+    { term: "Buprenorphine (Bup)", def: "A medication for opioid addiction and pain — brand names include Suboxone and Subutex." },
+    { term: "EtG", def: "Ethyl glucuronide — an alcohol metabolite detectable in urine even after alcohol itself is gone." },
+    { term: "EtS", def: "Ethyl sulfate — an alcohol metabolite that supports EtG detection as genuine." },
+    { term: "MAT", def: "Medication Assisted Treatment — use of medications like methadone or buprenorphine to treat substance use disorder." },
+    { term: "NPS", def: "New Psychoactive Substances — synthetic chemicals designed to mimic drugs and evade standard testing." },
+    { term: "Opiates", def: "Naturally derived opioids — includes morphine, codeine, hydrocodone. All opiates are opioids; not all opioids are opiates." },
+    { term: "D/L Meth Ratio", def: "A specific test distinguishing illicit methamphetamine from over-the-counter products like nasal inhalers." },
+    { term: "THC (Delta-9)", def: "The primary psychoactive compound in marijuana." }
+  ],
+  "Dominion Specific": [
+    { term: "CARD Report", def: "Comprehensive Analysis of Reported Drugs — clinical report for addiction treatment sites correlating meds and lab results." },
+    { term: "SAMM Report", def: "Scientifically Accurate Medication Monitoring — clinical report for pain management correlating prescribed meds with lab results." },
+    { term: "Med Review", def: "Dominion's proprietary software that automatically adds medically necessary testing based on predefined conditions — no call to Clinical Services needed." }
+  ]
+};
+
+const cats = Object.keys(ALL);
+let currentCat = cats[0];
+let selectedTerm = null;
+let selectedDef = null;
+let matched = new Set();
+let wrongSet = new Set();
+let pairs = [];
+
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildCats() {
+  document.getElementById('cats').innerHTML = cats.map(c =>
+    `<button class="cat-tab${c === currentCat ? ' active' : ''}" onclick="switchCat('${c}')">${c}</button>`
+  ).join('');
+}
+
+function switchCat(cat) {
+  currentCat = cat;
+  matched = new Set();
+  wrongSet = new Set();
+  selectedTerm = null;
+  selectedDef = null;
+  buildCats();
+  buildQuiz();
+}
+
+function buildQuiz() {
+  pairs = shuffle(ALL[currentCat]);
+  const termOrder = shuffle(pairs.map((_, i) => i));
+  const defOrder = shuffle(pairs.map((_, i) => i));
+
+  document.getElementById('total').textContent = pairs.length;
+  updateProgress();
+
+  document.getElementById('terms').innerHTML = termOrder.map(i =>
+    `<div class="term-card" id="t${i}" onclick="selectTerm(${i})">${pairs[i].term}</div>`
+  ).join('');
+
+  document.getElementById('defs').innerHTML = defOrder.map(i =>
+    `<div class="def-card" id="d${i}" onclick="selectDef(${i})">${pairs[i].def}</div>`
+  ).join('');
+}
+
+function updateProgress() {
+  const n = pairs.length;
+  const m = matched.size;
+  document.getElementById('score').textContent = m;
+  document.getElementById('total').textContent = n;
+  document.getElementById('progress-label').textContent = m + ' / ' + n;
+  document.getElementById('progress-fill').style.width = (n ? Math.round((m / n) * 100) : 0) + '%';
+}
+
+function clearWrongDisplay() {
+  wrongSet.forEach(id => {
+    const t = document.getElementById('t' + id);
+    const d = document.getElementById('d' + id);
+    if (t && !matched.has(id)) t.className = 'term-card';
+    if (d && !matched.has(id)) d.className = 'def-card';
+  });
+  wrongSet = new Set();
+}
+
+function selectTerm(i) {
+  if (matched.has(i)) return;
+  clearWrongDisplay();
+  if (selectedTerm === i) {
+    selectedTerm = null;
+    document.getElementById('t' + i).classList.remove('selected');
+    return;
+  }
+  if (selectedTerm !== null) document.getElementById('t' + selectedTerm).classList.remove('selected');
+  selectedTerm = i;
+  document.getElementById('t' + i).classList.add('selected');
+  if (selectedDef !== null) checkMatch();
+}
+
+function selectDef(i) {
+  if (matched.has(i)) return;
+  clearWrongDisplay();
+  if (selectedDef === i) {
+    selectedDef = null;
+    document.getElementById('d' + i).classList.remove('selected');
+    return;
+  }
+  if (selectedDef !== null) document.getElementById('d' + selectedDef).classList.remove('selected');
+  selectedDef = i;
+  document.getElementById('d' + i).classList.add('selected');
+  if (selectedTerm !== null) checkMatch();
+}
+
+function checkMatch() {
+  const t = selectedTerm, d = selectedDef;
+  if (t === d) {
+    document.getElementById('t' + t).className = 'term-card matched';
+    document.getElementById('d' + d).className = 'def-card matched';
+    matched.add(t);
+    selectedTerm = null;
+    selectedDef = null;
+    updateProgress();
+    if (matched.size === pairs.length) {
+      setTimeout(() => {
+        document.getElementById('columns').innerHTML = `
+          <div class="complete-screen">
+            <div class="complete-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00b0ad" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2>Section complete!</h2>
+            <p>You matched all ${pairs.length} terms correctly. Select another section above or restart to practice again.</p>
+          </div>`;
+      }, 500);
+    }
+  } else {
+    document.getElementById('t' + t).classList.add('wrong');
+    document.getElementById('d' + d).classList.add('wrong');
+    wrongSet.add(t);
+    wrongSet.add(d);
+    setTimeout(() => {
+      if (document.getElementById('t' + t)) document.getElementById('t' + t).className = 'term-card';
+      if (document.getElementById('d' + d)) document.getElementById('d' + d).className = 'def-card';
+      wrongSet.delete(t);
+      wrongSet.delete(d);
+      selectedTerm = null;
+      selectedDef = null;
+    }, 900);
+  }
+}
+
+function resetQuiz() {
+  matched = new Set();
+  wrongSet = new Set();
+  selectedTerm = null;
+  selectedDef = null;
+  buildQuiz();
+}
+
+buildCats();
+buildQuiz();
+</script>
